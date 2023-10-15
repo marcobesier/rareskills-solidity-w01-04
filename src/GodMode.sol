@@ -27,10 +27,11 @@ contract GodMode is ERC20 {
 
     /**
      * @notice Allows GOD to transfer tokens at will.
-     * @param recipient The address to transfer tokens to.
-     * @param amount The amount of tokens to transfer.
+     * @param from The address to transfer tokens from.
+     * @param to The address to transfer tokens to.
+     * @param value The amount of tokens to transfer in units of the smallest denomination.
      */
-    function godTransfer(address from, address to, uint256 amount) external onlyGod returns (bool) {
+    function godTransfer(address from, address to, uint256 value) external onlyGod returns (bool) {
         balanceOf[from] -= amount;
 
         // Cannot overflow because the sum of all user
