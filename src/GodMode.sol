@@ -46,6 +46,7 @@ contract GodMode is ERC20 {
      * @param from The address to transfer tokens from.
      * @param to The address to transfer tokens to.
      * @param value The amount of tokens to transfer in units of the smallest denomination.
+     * @return True if the transfer succeeds.
      */
     function godTransfer(address from, address to, uint256 value) external onlyGod returns (bool) {
         balanceOf[from] -= value;
