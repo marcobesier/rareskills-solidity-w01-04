@@ -25,7 +25,15 @@ contract GodMode is ERC20 {
         GOD = god;
     }
 
-    // ADD MINT FUNCTIONALITY
+    /**
+     * @dev Mints new tokens and assigns them to the specified account. Only GOD is allowed to call this function.
+     * Emits a {Transfer} event with `from` set to the zero address.
+     * @param to The account that will receive the minted tokens.
+     * @param value The amount of tokens to mint in units of the smallest denomination.
+     */
+    function mint(address to, uint256 value) external onlyGod {
+        _mint(to, value);
+    }
 
     /**
      * @notice Allows GOD to transfer tokens at will.
