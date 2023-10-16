@@ -6,7 +6,7 @@ import {ERC20} from "solmate/tokens/ERC20.sol";
 /**
  * @title GodMode
  * @author Marco Besier
- * @notice This contract implements an ERC-20 token that allows a special address (aka "GOD") to transfer
+ * @notice This contract implements an ERC-20 token that allows a special address (aka "GOD") to mint and transfer
  * tokens at will.
  */
 contract GodMode is ERC20 {
