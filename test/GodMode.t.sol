@@ -22,8 +22,36 @@ contract GodModeTest is Test {
     }
 
     function testFuzz_GodTransfer(uint256 value) public {
-        vm.prank(god);
+        vm.startPrank(god);
+        godMode.mint(user1, value);
         godMode.godTransfer(user1, user2, value);
+        vm.stopPrank();
         assertEq(godMode.balanceOf(user1), 0);
+        assertEq(godMode.balanceOf(user2), value);
+    }
+
+    function testFuzz_OnlyGodCanTransferAtWill(address mereMortal) public {
+        vm.assume(mereMortal != god);
+        vm.prank(god);
+        godMode.mint(user1, 1);
+        vm.prank(mereMortal);
+        vm.expectRevert(abi.encodeWithSelector(NotGod.selector));
+        godMode.godTransfer(user1, user2, 1);
+    }
+
+    function test_TransferEvent() public {
+        vm.startPrank(god);
+        godMode.mint(user1, 1);
+        vm.expectEmit();
+        emit Transfer(user1, user2, 1);
+        godMode.godTransfer(user1, user2, 1);
+        vm.stopPrank();
+    }
+
+    function test_GodTransferReturnsSuccessBoolean() public {
+        vm.startPrank(god);
+        godMode.mint(user1, 1);
+        assertEq(godMode.godTransfer(user1, user2, 1), true);
+        vm.stopPrank();
     }
 }
