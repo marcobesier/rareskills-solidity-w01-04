@@ -21,6 +21,19 @@ contract GodModeTest is Test {
         godMode = new GodMode("GodMode", "GOD", 18, god);
     }
 
+    function testFuzz_MintTokens(uint256 value) public {
+        vm.prank(god);
+        godMode.mint(user1, value);
+        assertEq(godMode.balanceOf(user1), value);
+    }
+
+    function testFuzz_OnlyGodCanMint(address mereMortal) public {
+        vm.assume(mereMortal != god);
+        vm.prank(mereMortal);
+        vm.expectRevert(abi.encodeWithSelector(NotGod.selector));
+        godMode.mint(mereMortal, 1);
+    }
+
     function testFuzz_GodTransfer(uint256 value) public {
         vm.startPrank(god);
         godMode.mint(user1, value);
