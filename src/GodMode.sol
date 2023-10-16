@@ -12,6 +12,8 @@ import {ERC20} from "solmate/tokens/ERC20.sol";
 contract GodMode is ERC20 {
     address public immutable GOD;
 
+    event GodTransfer(address indexed from, address indexed to, uint256 value);
+
     error NotGod();
 
     modifier onlyGod() {
@@ -50,7 +52,7 @@ contract GodMode is ERC20 {
             balanceOf[to] += value;
         }
 
-        emit Transfer(from, to, value);
+        emit GodTransfer(from, to, value);
 
         return true;
     }

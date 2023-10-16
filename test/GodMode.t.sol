@@ -10,7 +10,7 @@ contract GodModeTest is Test {
     address public user1;
     address public user2;
 
-    event Transfer(address indexed from, address indexed to, uint256 value);
+    event GodTransfer(address indexed from, address indexed to, uint256 value);
 
     error NotGod();
 
@@ -56,7 +56,7 @@ contract GodModeTest is Test {
         vm.startPrank(god);
         godMode.mint(user1, 1);
         vm.expectEmit();
-        emit Transfer(user1, user2, 1);
+        emit GodTransfer(user1, user2, 1);
         godMode.godTransfer(user1, user2, 1);
         vm.stopPrank();
     }
