@@ -14,9 +14,18 @@ contract GodMode is ERC20 {
 
     error NotGod();
 
+    modifier onlyGod() {
+        if (msg.sender != GOD) {
+            revert NotGod();
+        }
+        _;
+    }
+
     constructor(string memory name, string memory symbol, uint8 decimals, address god) ERC20(name, symbol, decimals) {
         GOD = god;
     }
+
+    // ADD MINT FUNCTIONALITY
 
     /**
      * @notice Allows GOD to transfer tokens at will.
@@ -24,11 +33,7 @@ contract GodMode is ERC20 {
      * @param to The address to transfer tokens to.
      * @param value The amount of tokens to transfer in units of the smallest denomination.
      */
-    function godTransfer(address from, address to, uint256 value) external returns (bool) {
-        if (msg.sender != GOD) {
-            revert NotGod();
-        }
-
+    function godTransfer(address from, address to, uint256 value) external onlyGod returns (bool) {
         balanceOf[from] -= value;
 
         // Cannot overflow because the sum of all user
