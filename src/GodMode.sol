@@ -15,6 +15,7 @@ contract GodMode is ERC20 {
     event GodTransfer(address indexed from, address indexed to, uint256 value);
 
     error NotGod();
+    error GodMustNotBeZero();
 
     modifier onlyGod() {
         if (msg.sender != GOD) {
@@ -24,6 +25,9 @@ contract GodMode is ERC20 {
     }
 
     constructor(string memory name, string memory symbol, uint8 decimals, address god) ERC20(name, symbol, decimals) {
+        if (god == address(0)) {
+            revert GodMustNotBeZero();
+        }
         GOD = god;
     }
 

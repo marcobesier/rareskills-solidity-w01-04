@@ -13,12 +13,18 @@ contract GodModeTest is Test {
     event GodTransfer(address indexed from, address indexed to, uint256 value);
 
     error NotGod();
+    error GodMustNotBeZero();
 
     function setUp() public {
         god = address(0x12);
         user1 = address(0x34);
         user2 = address(0x56);
         godMode = new GodMode("GodMode", "GOD", 18, god);
+    }
+
+    function test_GodMustNotBeZero() public {
+        vm.expectRevert(abi.encodeWithSelector(GodMustNotBeZero.selector));
+        new GodMode("GodMode", "GOD", 18, address(0));
     }
 
     function testFuzz_MintTokens(uint256 value) public {
